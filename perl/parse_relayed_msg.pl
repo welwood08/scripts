@@ -8,6 +8,7 @@
 #
 # thanks to darrob for hard beta-testing
 #
+# 1.8.1: fix: printf_date_tags() expects just tags, not full modifier_data
 # 1.8: fix: regex on tags
 # 1.7: add support of colors with format "${color:xxx}" (>= WeeChat 0.4.2)
 # 1.6: add wildcard "*" for supported_bot_names.
@@ -61,7 +62,7 @@
 
 use strict;
 my $SCRIPT_NAME         = "parse_relayed_msg";
-my $SCRIPT_VERSION      = "1.8";
+my $SCRIPT_VERSION      = "1.8.1";
 my $SCRIPT_DESCR        = "proper integration of remote users' nicknames in channel and nicklist";
 my $SCRIPT_AUTHOR       = "w8rabbit";
 my $SCRIPT_LICENCE      = "GPL3";
@@ -521,6 +522,7 @@ sub change_tags_for_message
     {
         $modifier_data =~ s/(^|,)nick_(.*),/nick_$relaynick,/;
     }
+    $modifier_data =~ s/^[^;]+;[^;]+;//;
     return $modifier_data;
 }
 
